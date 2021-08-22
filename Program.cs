@@ -7,20 +7,35 @@ using System.Threading.Tasks;
 var urls = new string[] {
   "http://webcode.me", 
   "http://example.com",
-  "http://httpbin.org",
-  "https://ifconfig.me",
-  "http://termbin.com",
-  "https://github.com"
+  "http://httpbin.org"
 };
 
-var rx = new Regex(
+Regex rx = new(
   @"<title>\s*(.+?)\s*</title>",
   RegexOptions.Compiled
 );
 
-using var client = new HttpClient();
+using HttpClient client = new();
 
 List<Task<string>> tasks = new();
+foreach (var url in urls)
+{
+    tasks.Add(client.GetStringAsync(url));
+}
 
-            Console.WriteLine("Hello World!");
+Task.WaitAll(tasks.ToArray());
 
+List<string> data = new();
+foreach (var task in tasks)
+{
+    data.Add(await task);
+}
+
+foreach (var content in data)
+{
+    var matches = rx.Matches(content);
+    foreach (var match in matches)
+    {
+        Console.WriteLine(match);
+    }
+}
