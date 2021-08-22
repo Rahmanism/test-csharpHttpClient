@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+Learn HttpClient
+https://zetcode.com/csharp/httpclient/
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.RegularExpressions;
